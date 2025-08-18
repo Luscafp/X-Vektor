@@ -12,55 +12,101 @@
     {
       "level": 1,
       "vetor": "V2",
+      "modulo": 4,
+      "origem": "6L",
+      "extremidade": "6H",
+      "correct_start": {"row": 6, "col": 12},
+      "correct_end": {"row": 6, "col": 8}
+    },
+    {
+      "level": 2,
+      "vetor": "V1",
+      "modulo": 7,
+      "origem": "15K",
+      "extremidade": "8K",
+      "correct_start": {"row": 15, "col": 11},
+      "correct_end": {"row": 8, "col": 11}
+    },
+    {
+      "level": 2,
+      "vetor": "V2",
+      "modulo": 2,
+      "origem": "11K",
+      "extremidade": "11I",
+      "correct_start": {"row": 11, "col": 11},
+      "correct_end": {"row": 11, "col": 9}
+    },
+    {
+      "level": 3,
+      "vetor": "V1",
+      "modulo": 3,
+      "origem": "D6",
+      "extremidade": "D9",
+      "correct_start": {"row": 6, "col": 4},
+      "correct_end": {"row": 9, "col": 4}
+    },
+    {
+      "level": 3,
+      "vetor": "V2",
+      "modulo": 4,
+      "origem": "4F",
+      "extremidade": "4J",
+      "correct_start": {"row": 4, "col": 6},
+      "correct_end": {"row": 4, "col": 10}
+    },
+    {
+      "level": 4,
+      "vetor": "V1",
+      "modulo": 4,
+      "direcao": "VERTICAL",
+      "extremidade": "11R",
+      "correct_start": {"row": 7, "col": 18},
+      "correct_end": {"row": 11, "col": 18}
+    },
+    {
+      "level": 5,
+      "vetor": "V1",
+      "modulo": 6,
+      "direcao": "VERTICAL",
+      "sentido": "PARA BAIXO",
+      "extremidade": "2J",
+      "correct_start": {"row": 8, "col": 9},
+      "correct_end": {"row": 2, "col": 9}
+    },
+    {
+      "level": 6,
+      "vetor": "V1",
       "modulo": 5,
-      "origem": "2A",
-      "extremidade": "2F",
-      "correct_start": {"row": 2, "col": 1},
-      "correct_end": {"row": 2, "col": 6}
+      "direcao": "HORIZONTAL",
+      "sentido": "DIREITA",
+      "origem": "7K",
+      "correct_start": {"row": 7, "col": 11},
+      "correct_end": {"row": 7, "col": 16}
     },
     {
-      "level": 2,
-      "operation": "V3 = V1 + V2",
-      "vetors": [
-        {
-          "name": "V1",
-          "origem": "1A",
-          "extremidade": "1C"
-        },
-        {
-          "name": "V2",
-          "origem": "1C",
-          "extremidade": "1E"
-        }
-      ],
-      "resultante": {
-        "origem": "1A",
-        "extremidade": "1E"
-      },
-      "correct_start": {"row": 1, "col": 1},
-      "correct_end": {"row": 1, "col": 5}
+      "level": 7,
+      "vetor": "V1",
+      "modulo": 6,
+      "sentido": "PARA CIMA",
+      "origem": "3N",
+      "correct_start": {"row": 3, "col": 14},
+      "correct_end": {"row": 9, "col": 14}
     },
     {
-      "level": 2,
-      "operation": "V4 = V1 - V3",
-      "vetors": [
-        {
-          "name": "V1",
-          "origem": "3B",
-          "extremidade": "3D"
-        },
-        {
-          "name": "V3",
-          "origem": "3D",
-          "extremidade": "3A"
-        }
-      ],
-      "resultante": {
-        "origem": "3B",
-        "extremidade": "3A"
-      },
-      "correct_start": {"row": 3, "col": 2},
-      "correct_end": {"row": 3, "col": 1}
+      "level": 8,
+      "vetor": "V1",
+      "origem": "9H",
+      "extremidade": "5L",
+      "correct_start": {"row": 9, "col": 8},
+      "correct_end": {"row": 5, "col": 12}
+    },
+    {
+      "level": 8,
+      "vetor": "V2",
+      "origem": "9J",
+      "extremidade": "9M",
+      "correct_start": {"row": 9, "col": 10},
+      "correct_end": {"row": 9, "col": 13}
     }
   ]
 }
