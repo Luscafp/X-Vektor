@@ -6,8 +6,8 @@ from vector import Vector
 class Game:
     def __init__(self, screen):
         self.screen = screen
-        self.board = Board(800, 600, 20, 15)
-        self.font = pygame.font.SysFont(None, 36)  # Fonte maior para visibilidade
+        self.board = Board(1200, 800, 20, 15)  # Ajustado para nova resolução
+        self.font = pygame.font.SysFont(None, 32)
         self.questions = self.load_questions()
         self.current_level = 1
         self.current_question_idx = 0
@@ -28,8 +28,14 @@ class Game:
         if event.type == pygame.MOUSEBUTTONDOWN:
             pos = self.board.get_grid_pos(*event.pos[:2])
             if pos:
-                if not self.player_start:
+                if "Correto" in self.feedback:  # Se acertou na última tentativa
+                    self.current_question_idx += 1
+                    if self.current_question_idx >= len(self.questions):
+                        self.feedback = "Jogo Concluído!"
+                    self.reset_player_input()
+                elif not self.player_start:
                     self.player_start = pos
+                    self.feedback = ""  # Limpa feedback ao começar novo vetor
                 elif not self.player_end:
                     self.player_end = pos
                     self.check_answer(q)
@@ -41,8 +47,6 @@ class Game:
             self.current_question_idx += 1
             if self.current_question_idx >= len(self.questions):
                 self.feedback = "Jogo Concluído!"
-            else:
-                self.reset_player_input()
         else:
             self.reset_player_input()
 
@@ -51,11 +55,10 @@ class Game:
         self.player_end = None
 
     def draw(self):
-        # Não fill, pois background é blitado no board.draw
         self.board.draw(self.screen)
         q = self.get_current_question()
 
-        # Exibir dados (movido para baixo para evitar sobrepor título)
+        # Exibir dados
         text = f"Nível {q['level']}"
         if q['level'] == 1:
             text += f" | Vetor: {q['vetor']} | Módulo: {q['modulo']} | Origem: {q['origem']} | Extremidade: {q['extremidade']}"
@@ -64,11 +67,19 @@ class Game:
             self.vectors = [Vector(v) for v in q['vetors']]
             for v in self.vectors:
                 v.draw(self.screen, self.board, (255, 0, 0))  # Vetores iniciais em vermelho
-        self.screen.blit(self.font.render(text, True, (0, 0, 0)), (10, 50))
+        self.screen.blit(self.font.render(text, True, (0, 0, 0)), (10, self.board.offset_y + self.board.grid_height + 10))
 
         # Desenhar input do jogador
         if self.player_start and self.player_end:
-            Vector({'correct_start': self.player_start, 'correct_end': self.player_end}).draw(self.screen, self.board)
+            player_vector = Vector({'correct_start': self.player_start, 'correct_end': self.player_end})
+            player_vector.draw(self.screen, self.board, color=(0, 0, 255))  # Vetor do jogador em azul
 
-        # Feedback (movido para posição inferior)
-        self.screen.blit(self.font.render(self.feedback, True, (0, 255, 0) if "Correto" in self.feedback else (255, 0, 0)), (10, 560))
+        if self.player_start:
+            x, y = self.board.get_pixel_pos(self.player_start['col'], self.player_start['row'])
+            pygame.draw.circle(self.screen, (0, 255, 0), (int(x), int(y)), 5)
+        if self.player_end:
+            x, y = self.board.get_pixel_pos(self.player_end['col'], self.player_end['row'])
+            pygame.draw.circle(self.screen, (255, 0, 0), (int(x), int(y)), 5)
+
+        # Feedback
+        self.screen.blit(self.font.render(self.feedback, True, (0, 255, 0) if "Correto" in self.feedback else (255, 0, 0)), (10, self.board.offset_y + self.board.grid_height + 50))

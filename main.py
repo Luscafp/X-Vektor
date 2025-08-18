@@ -2,7 +2,7 @@ import pygame
 from game import Game
 
 pygame.init()
-screen = pygame.display.set_mode((800, 600))
+screen = pygame.display.set_mode((1200, 800))
 pygame.display.set_caption("X-Vector")
 clock = pygame.time.Clock()
 game = Game(screen)
