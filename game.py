@@ -35,7 +35,7 @@ class Game:
 
         # Logos
         self.logo_uema = self.load_logo('assets/logo_uema.png')
-        self.logo_xvector = self.load_logo('assets/logo_xvector.png')
+        self.logo_xvector = self.load_logo_game('assets/logo_xvector.png')
         self.logo_uemanet = self.load_logo('assets/logo_uemanet.png')
 
         self.menu_buttons = {
@@ -154,7 +154,7 @@ class Game:
         if os.path.exists(path):
             try:
                 img = pygame.image.load(path).convert_alpha()
-                h = 70
+                h = 130
                 scale = h / img.get_height()
                 w = int(img.get_width() * scale)
                 return pygame.transform.smoothscale(img, (w, h))
@@ -162,6 +162,18 @@ class Game:
                 return None
         return None
 
+    def load_logo_game(self, path):
+        if os.path.exists(path):
+            try:
+                img = pygame.image.load(path).convert_alpha()
+                h = 50
+                scale = h / img.get_height()
+                w = int(img.get_width() * scale)
+                return pygame.transform.smoothscale(img, (w, h))
+            except Exception:
+                return None
+        return None
+    
     def load_questions_file(self, path):
         if not os.path.exists(path):
             return []
@@ -300,9 +312,21 @@ class Game:
         self.player_start = None
         self.player_end = None
 
+    def draw_background(self):
+        sw, sh = self.screen.get_size()
+        top_color = (30, 40, 70)
+        bottom_color = (80, 120, 200)
+        for y in range(sh):
+            ratio = y / sh
+            r = int(top_color[0] * (1-ratio) + bottom_color[0] * ratio)
+            g = int(top_color[1] * (1-ratio) + bottom_color[1] * ratio)
+            b = int(top_color[2] * (1-ratio) + bottom_color[2] * ratio)
+            pygame.draw.line(self.screen, (r, g, b), (0, y), (sw, y))
+
     def draw(self):
         if self.state == Game.STATE_MENU:
             self.draw_menu()
+
             return
         self.board.draw(self.screen)
         if self.state != Game.STATE_FINISHED:
@@ -322,7 +346,7 @@ class Game:
             self.screen.fill((20, 22, 30))
         sw, sh = self.screen.get_size()
         # title = self.font_big.render('X-Vector', True, (255, 255, 255))
-        subtitle = self.font.render('Escolha a dificuldade', True, (255, 0, 0))
+        subtitle = self.font.render('Escolha o nível', True, (255, 0, 0))
         # self.screen.blit(title, title.get_rect(center=(sw//2, sh//2 - 140)))
         self.screen.blit(subtitle, subtitle.get_rect(center=(sw//2, sh//2 - 90)))
         spacing = 20
@@ -336,7 +360,7 @@ class Game:
             hovered = rect.collidepoint(pygame.mouse.get_pos())
             color = (60, 130, 246) if hovered else (40, 110, 226)
             pygame.draw.rect(self.screen, color, rect, border_radius=12)
-            label = self.font.render('Questões Fáceis' if name == 'facil' else 'Questões Difíceis', True, (255, 255, 255))
+            label = self.font.render('Nível 1' if name == 'facil' else 'Nivel 2', True, (255, 255, 255))
             self.screen.blit(label, label.get_rect(center=rect.center))
         tip = self.font_small.render('Dica: ESC volta ao menu.', True, (200, 200, 200))
         self.screen.blit(tip, tip.get_rect(center=(sw//2, sh - 40)))
@@ -386,8 +410,8 @@ class Game:
         question_rect = question_surface.get_rect(center=(sw//2, self.board.offset_y + self.board.grid_height + 30))
         
         # Fundo branco apenas para modo difícil (onde o texto é mais longo)
-        if 'vetors' in q and q['vetors']:
-            pygame.draw.rect(self.screen, (255, 255, 255), question_rect.inflate(20, 8))
+        # if 'vetors' in q and q['vetors']:
+        #     pygame.draw.rect(self.screen, (255, 255, 255), question_rect.inflate(20, 8))
         
         self.screen.blit(question_surface, question_rect)
         
@@ -440,14 +464,20 @@ class Game:
         msg = self.font_big.render('Parabéns! Você concluiu todas as questões.', True, (0, 120, 0))
         self.screen.blit(msg, msg.get_rect(center=(sw//2, self.board.offset_y + self.board.grid_height//2)))
         self.position_action_buttons()
-        self.draw_button(self.menu_button, 'Voltar ao Menu (Esc)')
+        self.draw_button(self.menu_button, 'Menu (Esc)')
 
     def draw_button(self, rect, text):
         hovered = rect.collidepoint(pygame.mouse.get_pos())
-        color = (60, 130, 246) if hovered else (40, 110, 226)
-        pygame.draw.rect(self.screen, color, rect, border_radius=10)
+        base_color = (40, 110, 226)
+        hover_color = (70, 150, 255)
+        color = hover_color if hovered else base_color
+        scale = 1.05 if hovered else 1
+        new_rect = pygame.Rect(rect.x, rect.y, rect.width*scale, rect.height*scale)
+        new_rect.center = rect.center
+        pygame.draw.rect(self.screen, color, new_rect, border_radius=16)
+        pygame.draw.rect(self.screen, (255,255,255), new_rect, 2, border_radius=16)
         label = self.font.render(text, True, (255, 255, 255))
-        self.screen.blit(label, label.get_rect(center=rect.center))
+        self.screen.blit(label, label.get_rect(center=new_rect.center))
 
     def draw_logos(self):
         sw = self.screen.get_width()
