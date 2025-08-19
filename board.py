@@ -1,4 +1,6 @@
+
 import pygame
+import os
 
 class Board:
     def __init__(self, screen_width=1200, screen_height=800, cols=20, rows=15):
@@ -11,12 +13,23 @@ class Board:
         self.grid_height = self.rows * self.cell_size  # 450
         self.offset_x = (self.screen_width - self.grid_width) // 2  # ~100 para centralizar
         self.offset_y = 130  # Margem superior para logos/título
-        self.background = pygame.image.load('assets/background.png').convert()
-        self.background = pygame.transform.scale(self.background, (self.screen_width, self.screen_height))
+
+        self.background = None
+        # Tenta carregar imagem de fundo; se não existir, usa cor sólida
+        bg_path = os.path.join('assets', 'background.png')
+        if os.path.exists(bg_path):
+            try:
+                self.background = pygame.image.load(bg_path).convert()
+                self.background = pygame.transform.scale(self.background, (self.screen_width, self.screen_height))
+            except Exception:
+                self.background = None
 
     def draw(self, screen):
-        screen.blit(self.background, (0, 0))
-        
+        if self.background:
+            screen.blit(self.background, (0, 0))
+        else:
+            screen.fill((245, 246, 252))
+
         # Desenhar linhas da grade com offsets
         for i in range(self.cols + 1):
             x = self.offset_x + i * self.cell_size
@@ -24,23 +37,23 @@ class Board:
         for j in range(self.rows + 1):
             y = self.offset_y + j * self.cell_size
             pygame.draw.line(screen, (0, 0, 0), (self.offset_x, y), (self.offset_x + self.grid_width, y))
-        
+
         # Labels das colunas (acima do grid, com distância)
         font = pygame.font.SysFont(None, 24)
         for col in range(1, self.cols + 1):
             label = font.render(chr(64 + col), True, (0, 0, 0))
             screen.blit(label, (self.offset_x + (col - 0.5) * self.cell_size - label.get_width() / 2, self.offset_y - 30))
-        
+
         # Labels das linhas (à esquerda do grid, com distância, inversão)
         for row in range(1, self.rows + 1):
             label = font.render(str(row), True, (0, 0, 0))
             y = self.offset_y + (self.rows - row) * self.cell_size + self.cell_size / 2
             screen.blit(label, (self.offset_x - 40, y - label.get_height() / 2))  # Distância extra para visibilidade
-        
+
         # Dots vermelhos (acima das letras)
         for col in range(1, self.cols + 1):
             pygame.draw.circle(screen, (255, 0, 0), (self.offset_x + (col - 0.5) * self.cell_size, self.offset_y - 10), 3)
-        
+
         # Dots pretos (à esquerda dos números)
         for row in range(1, self.rows + 1):
             y = self.offset_y + (self.rows - row) * self.cell_size + self.cell_size / 2
