@@ -46,6 +46,102 @@ class Game:
         self.clear_button = pygame.Rect(0, 0, 160, 40)
         self.menu_button = pygame.Rect(0, 0, 160, 40)
 
+    # ==== X-Vector: Helpers for hard mode ====
+    @staticmethod
+    def _letter_to_col(letter):
+        col = 0
+        for ch in letter:
+            if ch.isalpha():
+                col = col*26 + (ord(ch.upper()) - 64)
+        return col
+
+    @staticmethod
+    def _cell_to_rc(cell):
+        if not cell:
+            return None
+        i = 0
+        while i < len(cell) and cell[i].isdigit():
+            i += 1
+        row = int(cell[:i])
+        col = Game._letter_to_col(cell[i:])
+        return {"row": row, "col": col}
+
+    @staticmethod
+    def _delta(a, b):
+        return (b['row'] - a['row'], b['col'] - a['col'])
+
+    @staticmethod
+    def _delta_mag(dr, dc):
+        return (dr*dr + dc*dc) ** 0.5
+
+    def _parse_vetors(self, q):
+        out = {}
+        for v in q.get('vetors', []):
+            o = self._cell_to_rc(v['origem'])
+            e = self._cell_to_rc(v['extremidade'])
+            out[v['name']] = self._delta(o, e)
+        return out
+
+    def _compute_expected_delta(self, q):
+        deltas = self._parse_vetors(q)
+        op = q.get('operation', '')
+        if op:
+            rhs = op.split('=')[1].strip() if '=' in op else op.strip()
+            rhs = rhs.replace('-', '+-')
+            total = (0, 0)
+            for term in rhs.split('+'):
+                t = term.strip().replace(' ', '')
+                if not t: continue
+                coef = 1
+                name = None
+                if '*' in t:
+                    c, name = t.split('*')
+                    try:
+                        coef = int(c)
+                    except:
+                        coef = 1
+                else:
+                    if t.startswith('-'):
+                        coef = -1
+                        name = t[1:]
+                    else:
+                        name = t
+                if name in deltas:
+                    d = deltas[name]
+                    total = (total[0] + coef*d[0], total[1] + coef*d[1])
+            return total
+        res = q.get('resultante', {})
+        ro = res.get('origem') or ''
+        re_ = res.get('extremidade') or ''
+        if ro and re_:
+            o = self._cell_to_rc(ro); e = self._cell_to_rc(re_)
+            return self._delta(o, e)
+        return None
+
+    def _rule_hint(self, q, expected):
+        vs = list(self._parse_vetors(q).values())
+        hint = ''
+        if q.get('operation'):
+            op = q['operation']
+            if '+' in op and '-' not in op and len(vs) >= 2:
+                (a1, a2) = vs[0], vs[1]
+                dot = a1[0]*a2[0] + a1[1]*a2[1]
+                if dot == 0:
+                    hint = 'Regra do paralelogramo (vetores perpendiculares).'
+                else:
+                    hint = 'Regra do paralelogramo (soma: ponta na cauda).'
+            elif '-' in op:
+                hint = 'Subtração: V1 - V2 = V1 + (-V2).'
+            elif '*' in op:
+                hint = 'Combinação linear: k·V (escala) e soma.'
+        return hint
+
+    def _expected_from_question(self, q):
+        expected = self._compute_expected_delta(q)
+        res = q.get('resultante', {})
+        modulo = res.get('modulo')
+        return expected, modulo
+
     def load_sound(self, path):
         if os.path.exists(path):
             try:
@@ -176,7 +272,21 @@ class Game:
             self.state = Game.STATE_FINISHED
 
     def check_answer(self, q):
-        correct = (self.player_start == q['correct_start'] and self.player_end == q['correct_end'])
+        expected_delta, modulo = self._expected_from_question(q)
+        if self.player_start and self.player_end:
+            u = self.player_start
+            v = self.player_end
+            du = (v['row'] - u['row'], v['col'] - u['col'])
+            correct = False
+            if expected_delta is not None:
+                correct = (du == expected_delta)
+            elif modulo is not None:
+                correct = abs(self._delta_mag(*du) - float(modulo)) < 1e-6
+            else:
+                correct = (self.player_start == q.get('correct_start') and self.player_end == q.get('correct_end'))
+        else:
+            correct = False
+            
         if correct:
             self.feedback = 'Correto!'
             if self.sound_correct: self.sound_correct.play()
@@ -237,16 +347,56 @@ class Game:
     def draw_question_and_vectors(self):
         q = self.questions[self.current_index]
         sw = self.screen.get_width()
+        
+        # Desenhar vetores já resolvidos
         for i in sorted(self.solved):
             if 0 <= i < len(self.questions):
                 Vector(self.questions[i]).draw(self.screen, self.board, (0, 180, 0))
-        question_text = f"Vetor: {q.get('vetor', '')} | Módulo: {q.get('modulo', '')} | Origem: {q.get('origem', '')} | Extremidade: {q.get('extremidade', '')}"
+        
+        # Verificar se é modo difícil (com vetors)
+        if 'vetors' in q and q['vetors']:
+            # MODO DIFÍCIL - desenhar vetores componentes e mostrar operação
+            for v in q['vetors']:
+                o = self._cell_to_rc(v['origem'])
+                e = self._cell_to_rc(v['extremidade'])
+                if o and e:
+                    pygame.draw.line(self.screen, (120, 120, 120), 
+                                self.board.get_pixel_pos(o['col'], o['row']), 
+                                self.board.get_pixel_pos(e['col'], e['row']), 3)
+                    ex, ey = self.board.get_pixel_pos(e['col'], e['row'])
+                    pygame.draw.circle(self.screen, (120, 120, 120), (int(ex), int(ey)), 4)
+            
+            op_text = q.get('operation', '')
+            expected_delta, modulo = self._expected_from_question(q)
+            rule = self._rule_hint(q, expected_delta)
+            
+            # Texto para modo difícil
+            question_text = f"Operação: {op_text}"
+            if modulo is not None:
+                question_text += f" | Módulo esperado: {modulo}"
+            if rule:
+                question_text += f" | Dica: {rule}"
+                
+        else:
+            # MODO FÁCIL - texto original
+            question_text = f"Vetor: {q.get('vetor', '')} | Módulo: {q.get('modulo', '')} | Origem: {q.get('origem', '')} | Extremidade: {q.get('extremidade', '')}"
+        
+        # Renderizar a questão
         question_surface = self.font.render(f"Q{self.current_index + 1}/{len(self.questions)} | {question_text}", True, (0, 0, 0))
         question_rect = question_surface.get_rect(center=(sw//2, self.board.offset_y + self.board.grid_height + 30))
+        
+        # Fundo branco apenas para modo difícil (onde o texto é mais longo)
+        if 'vetors' in q and q['vetors']:
+            pygame.draw.rect(self.screen, (255, 255, 255), question_rect.inflate(20, 8))
+        
         self.screen.blit(question_surface, question_rect)
+        
+        # Desenhar vetor do jogador
         if self.player_start and self.player_end:
             player_vector = Vector({'correct_start': self.player_start, 'correct_end': self.player_end})
             player_vector.draw(self.screen, self.board, color=(0, 0, 255))
+        
+        # Desenhar pontos de início e fim
         if self.player_start:
             x, y = self.board.get_pixel_pos(self.player_start['col'], self.player_start['row'])
             pygame.draw.circle(self.screen, (0, 255, 0), (int(x), int(y)), 5)

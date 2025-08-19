@@ -1,7 +1,6 @@
 {
-  "questions_hard":
-  [
-      {
+  "questions": [
+    {
       "level": 1,
       "operation": "V3 = V1 + V2",
       "vetors": [
@@ -21,10 +20,15 @@
         "extremidade": "",
         "modulo": 2
       },
-      "correct_start": {"row": 1, "col": 1},
-      "correct_end": {"row": 1, "col": 5}
+      "correct_start": {
+        "row": 1,
+        "col": 1
+      },
+      "correct_end": {
+        "row": 1,
+        "col": 3
+      }
     },
-
     {
       "level": 2,
       "operation": "V4 = V1 + V2 + V3",
@@ -48,12 +52,17 @@
       "resultante": {
         "origem": "4F",
         "extremidade": "4L",
-        "modulo": 6
+        "modulo": 11
       },
-      "correct_start": {"row": 4, "col": 6},
-      "correct_end": {"row": 4, "col": 12}
+      "correct_start": {
+        "row": 1,
+        "col": 1
+      },
+      "correct_end": {
+        "row": 11,
+        "col": 6
+      }
     },
-
     {
       "level": 3,
       "operation": "V3 = V1 - V2",
@@ -72,12 +81,17 @@
       "resultante": {
         "origem": "3A",
         "extremidade": "10G",
-        "modulo": 10
+        "modulo": 9
       },
-      "correct_start": {"row": 3, "col": 1},
-      "correct_end": {"row": 10, "col": 7}
+      "correct_start": {
+        "row": 1,
+        "col": 1
+      },
+      "correct_end": {
+        "row": 8,
+        "col": 7
+      }
     },
-
     {
       "level": 5,
       "operation": "V3 = V1 + V2",
@@ -98,10 +112,15 @@
         "extremidade": "15G",
         "modulo": 9
       },
-      "correct_start": {"row": 6, "col": 7},
-      "correct_end": {"row": 15, "col": 7}
+      "correct_start": {
+        "row": 1,
+        "col": 1
+      },
+      "correct_end": {
+        "row": 10,
+        "col": 1
+      }
     },
-
     {
       "level": 6,
       "operation": "V3 = V1 + V2",
@@ -120,12 +139,17 @@
       "resultante": {
         "origem": "9H",
         "extremidade": "14H",
-        "modulo": 6
+        "modulo": 5
       },
-      "correct_start": {"row": 9, "col": 8},
-      "correct_end": {"row": 9, "col": 8}
+      "correct_start": {
+        "row": 1,
+        "col": 1
+      },
+      "correct_end": {
+        "row": 6,
+        "col": 1
+      }
     },
-
     {
       "level": 7,
       "operation": "V3 = V1 + V2",
@@ -146,10 +170,15 @@
         "extremidade": "10I",
         "modulo": 5
       },
-      "correct_start": {"row": 7, "col": 5},
-      "correct_end": {"row": 10, "col": 9}
+      "correct_start": {
+        "row": 1,
+        "col": 1
+      },
+      "correct_end": {
+        "row": 4,
+        "col": 5
+      }
     },
-
     {
       "level": 8,
       "operation": "V3 = V1 + V2",
@@ -170,10 +199,15 @@
         "extremidade": "10I",
         "modulo": 5
       },
-      "correct_start": {"row": 7, "col": 5},
-      "correct_end": {"row": 10, "col": 9}
+      "correct_start": {
+        "row": 1,
+        "col": 1
+      },
+      "correct_end": {
+        "row": 4,
+        "col": 5
+      }
     },
-
     {
       "level": 9,
       "operation": "V3 = V1 - V2",
@@ -194,10 +228,15 @@
         "extremidade": "",
         "modulo": 5
       },
-      "correct_start": {"row": , "col": },
-      "correct_end": {"row": , "col": }
+      "correct_start": {
+        "row": 1,
+        "col": 1
+      },
+      "correct_end": {
+        "row": 1,
+        "col": 6
+      }
     },
-
     {
       "level": 10,
       "operation": "V3 = 2*V1 - 3*V2",
@@ -216,11 +255,16 @@
       "resultante": {
         "origem": "",
         "extremidade": "",
-        "modulo": 7
+        "modulo": 1
       },
-      "correct_start": {"row": , "col": },
-      "correct_end": {"row": , "col": }
+      "correct_start": {
+        "row": 1,
+        "col": 1
+      },
+      "correct_end": {
+        "row": 1,
+        "col": 2
+      }
     }
-  ] 
-}   
-      
+  ]
+}
