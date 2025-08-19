@@ -1,0 +1,226 @@
+{
+  "questions_hard":
+  [
+      {
+      "level": 1,
+      "operation": "V3 = V1 + V2",
+      "vetors": [
+        {
+          "name": "V1",
+          "origem": "7B",
+          "extremidade": "7G"
+        },
+        {
+          "name": "V2",
+          "origem": "5I",
+          "extremidade": "5F"
+        }
+      ],
+      "resultante": {
+        "origem": "",
+        "extremidade": "",
+        "modulo": 2
+      },
+      "correct_start": {"row": 1, "col": 1},
+      "correct_end": {"row": 1, "col": 5}
+    },
+
+    {
+      "level": 2,
+      "operation": "V4 = V1 + V2 + V3",
+      "vetors": [
+        {
+          "name": "V1",
+          "origem": "4F",
+          "extremidade": "9I"
+        },
+        {
+          "name": "V2",
+          "origem": "4H",
+          "extremidade": "4J"
+        },
+        {
+          "name": "V3",
+          "origem": "2M",
+          "extremidade": "7M"
+        }
+      ],
+      "resultante": {
+        "origem": "4F",
+        "extremidade": "4L",
+        "modulo": 6
+      },
+      "correct_start": {"row": 4, "col": 6},
+      "correct_end": {"row": 4, "col": 12}
+    },
+
+    {
+      "level": 3,
+      "operation": "V3 = V1 - V2",
+      "vetors": [
+        {
+          "name": "V1",
+          "origem": "3A",
+          "extremidade": "10A"
+        },
+        {
+          "name": "V2",
+          "origem": "7H",
+          "extremidade": "7B"
+        }
+      ],
+      "resultante": {
+        "origem": "3A",
+        "extremidade": "10G",
+        "modulo": 10
+      },
+      "correct_start": {"row": 3, "col": 1},
+      "correct_end": {"row": 10, "col": 7}
+    },
+
+    {
+      "level": 5,
+      "operation": "V3 = V1 + V2",
+      "vetors": [
+        {
+          "name": "V1",
+          "origem": "7C",
+          "extremidade": "13C"
+        },
+        {
+          "name": "V2",
+          "origem": "7J",
+          "extremidade": "10J"
+        }
+      ],
+      "resultante": {
+        "origem": "6G",
+        "extremidade": "15G",
+        "modulo": 9
+      },
+      "correct_start": {"row": 6, "col": 7},
+      "correct_end": {"row": 15, "col": 7}
+    },
+
+    {
+      "level": 6,
+      "operation": "V3 = V1 + V2",
+      "vetors": [
+        {
+          "name": "V1",
+          "origem": "13A",
+          "extremidade": "15A"
+        },
+        {
+          "name": "V2",
+          "origem": "11H",
+          "extremidade": "14H"
+        }
+      ],
+      "resultante": {
+        "origem": "9H",
+        "extremidade": "14H",
+        "modulo": 6
+      },
+      "correct_start": {"row": 9, "col": 8},
+      "correct_end": {"row": 9, "col": 8}
+    },
+
+    {
+      "level": 7,
+      "operation": "V3 = V1 + V2",
+      "vetors": [
+        {
+          "name": "V1",
+          "origem": "5C",
+          "extremidade": "8C"
+        },
+        {
+          "name": "V2",
+          "origem": "7F",
+          "extremidade": "7J"
+        }
+      ],
+      "resultante": {
+        "origem": "7E",
+        "extremidade": "10I",
+        "modulo": 5
+      },
+      "correct_start": {"row": 7, "col": 5},
+      "correct_end": {"row": 10, "col": 9}
+    },
+
+    {
+      "level": 8,
+      "operation": "V3 = V1 + V2",
+      "vetors": [
+        {
+          "name": "V1",
+          "origem": "5C",
+          "extremidade": "8C"
+        },
+        {
+          "name": "V2",
+          "origem": "7F",
+          "extremidade": "7J"
+        }
+      ],
+      "resultante": {
+        "origem": "7E",
+        "extremidade": "10I",
+        "modulo": 5
+      },
+      "correct_start": {"row": 7, "col": 5},
+      "correct_end": {"row": 10, "col": 9}
+    },
+
+    {
+      "level": 9,
+      "operation": "V3 = V1 - V2",
+      "vetors": [
+        {
+          "name": "V1",
+          "origem": "9L",
+          "extremidade": "9T"
+        },
+        {
+          "name": "V2",
+          "origem": "3N",
+          "extremidade": "3Q"
+        }
+      ],
+      "resultante": {
+        "origem": "",
+        "extremidade": "",
+        "modulo": 5
+      },
+      "correct_start": {"row": , "col": },
+      "correct_end": {"row": , "col": }
+    },
+
+    {
+      "level": 10,
+      "operation": "V3 = 2*V1 - 3*V2",
+      "vetors": [
+        {
+          "name": "V1",
+          "origem": "6A",
+          "extremidade": "6C"
+        },
+        {
+          "name": "V2",
+          "origem": "4F",
+          "extremidade": "4G"
+        }
+      ],
+      "resultante": {
+        "origem": "",
+        "extremidade": "",
+        "modulo": 7
+      },
+      "correct_start": {"row": , "col": },
+      "correct_end": {"row": , "col": }
+    }
+  ] 
+}   
+      
