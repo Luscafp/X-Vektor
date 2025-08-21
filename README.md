@@ -138,10 +138,6 @@ Contribuições são bem-vindas! Para contribuir:
 4. Push para a branch (`git push origin feature/AmazingFeature`)
 5. Abra um Pull Request
 
-## 📞 Suporte
-
-Para dúvidas ou sugestões, entre em contato através das issues do projeto ou pelo email: desenvolvedores@uema.br
-
 ---
 
 **Divirta-se aprendendo sobre vetores com X-Vector!** 🚀
