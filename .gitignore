@@ -1,0 +1,57 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.egg
+*.egg-info/
+dist/
+build/
+*.so
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+
+# VS Code
+.vscode/
+
+# MacOS
+.DS_Store
+
+# Logs
+*.log
+
+# System files
+Thumbs.db
+
+# Test and coverage
+.coverage
+htmlcov/
+*.cover
+*.py,cover
+
+# Data and models
+*.h5
+*.ckpt
+*.pth
+*.pt
+*.npz
+*.npy
+
+# Temporary files
+*.tmp
+*.swp
+*.bak
+
+# X-vector specific
+xvector/
+exp/
+data/
+egs/

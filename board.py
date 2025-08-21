@@ -1,4 +1,3 @@
-
 import pygame
 import os
 
@@ -16,7 +15,7 @@ class Board:
 
         self.background = None
         # Tenta carregar imagem de fundo; se não existir, usa cor sólida
-        bg_path = os.path.join('assets', 'background.png')
+        bg_path = os.path.join(os.path.dirname(__file__), 'assets', 'background.png')
         if os.path.exists(bg_path):
             try:
                 self.background = pygame.image.load(bg_path).convert()

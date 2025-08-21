@@ -143,17 +143,19 @@ class Game:
         return expected, modulo
 
     def load_sound(self, path):
-        if os.path.exists(path):
+        full_path = os.path.join(os.path.dirname(__file__), path)
+        if os.path.exists(full_path):
             try:
-                return pygame.mixer.Sound(path)
+                return pygame.mixer.Sound(full_path)
             except Exception:
                 return None
         return None
 
     def load_logo(self, path):
-        if os.path.exists(path):
+        full_path = os.path.join(os.path.dirname(__file__), path)
+        if os.path.exists(full_path):
             try:
-                img = pygame.image.load(path).convert_alpha()
+                img = pygame.image.load(full_path).convert_alpha()
                 h = 130
                 scale = h / img.get_height()
                 w = int(img.get_width() * scale)
@@ -163,9 +165,10 @@ class Game:
         return None
 
     def load_logo_game(self, path):
-        if os.path.exists(path):
+        full_path = os.path.join(os.path.dirname(__file__), path)
+        if os.path.exists(full_path):
             try:
-                img = pygame.image.load(path).convert_alpha()
+                img = pygame.image.load(full_path).convert_alpha()
                 h = 50
                 scale = h / img.get_height()
                 w = int(img.get_width() * scale)
@@ -175,9 +178,10 @@ class Game:
         return None
     
     def load_questions_file(self, path):
-        if not os.path.exists(path):
+        full_path = os.path.join(os.path.dirname(__file__), path)
+        if not os.path.exists(full_path):
             return []
-        with open(path, 'r', encoding='utf-8') as f:
+        with open(full_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
         return data.get('questions', [])
 
